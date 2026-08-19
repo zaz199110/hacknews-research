@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关键词管理 - LLM 新闻日报</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 返回按钮 -->
+        <a href="/" class="back-link">← 返回首页</a>
+        
+        <!-- 标题 -->
+        <h1>关键词池</h1>
+        
+        <!-- 反馈统计 -->
+        <div class="card">
+            <div class="stats">
+                <span>已反馈：<strong id="total-feedback">0</strong> 条</span>
+                <span>👍 <strong id="positive-count">0</strong></span>
+                <span>👎 <strong id="negative-count">0</strong></span>
+            </div>
+        </div>
+        
+        <!-- 关键词列表 -->
+        <div class="card">
+            <h2>关键词列表</h2>
+            <div id="keywords-list">
+                <!-- 关键词列表会在这里动态生成 -->
+                <div class="empty-state">暂无关键词</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadKeywords();
+        });
+    </script>
+</body>
+</html>

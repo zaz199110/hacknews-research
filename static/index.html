@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM 新闻日报</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 标题 -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+            <h1>LLM 新闻日报</h1>
+            <div style="display: flex; gap: 8px;">
+                <button onclick="openConfigModal()" class="btn btn-ghost">模型配置</button>
+                <a href="/keywords" class="btn btn-ghost">关键词管理</a>
+            </div>
+        </div>
+        
+        <!-- 新建搜索 -->
+        <div class="card">
+            <h2>新建搜索</h2>
+            
+            <!-- 关键词输入 -->
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 13px; color: #6B6B6B; margin-bottom: 8px;">关键词</label>
+                <div id="keywords-container" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <!-- 关键词标签会在这里动态生成 -->
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="keyword-input" 
+                           placeholder="输入关键词，按回车添加">
+                    <button onclick="addKeyword()" class="btn btn-primary">添加</button>
+                </div>
+            </div>
+            
+            <!-- 关键词关系 -->
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 13px; color: #6B6B6B; margin-bottom: 8px;">关键词关系</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="logic" value="OR" checked>
+                        <span>OR（任一包含）</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="logic" value="AND">
+                        <span>AND（全部包含）</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 时间范围 -->
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 13px; color: #6B6B6B; margin-bottom: 8px;">时间范围</label>
+                <div class="date-picker">
+                    <input type="date" id="start-date">
+                    <span>至</span>
+                    <input type="date" id="end-date">
+                </div>
+            </div>
+            
+            <!-- 搜索按钮 -->
+            <button onclick="doSearch()" id="search-btn" class="btn btn-success search-btn">
+                立即搜索
+            </button>
+        </div>
+        
+        <!-- 搜索历史 -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h2 style="margin: 0;">搜索历史</h2>
+                <div style="display: flex; gap: 8px;">
+                    <button onclick="toggleBatchMode()" id="batch-mode-btn" class="btn btn-ghost">
+                        批量删除
+                    </button>
+                    <button onclick="batchDelete()" id="batch-delete-btn" class="btn btn-danger" style="display: none;">
+                        删除选中
+                    </button>
+                </div>
+            </div>
+            <div id="sessions-list">
+                <!-- 搜索会话列表会在这里动态生成 -->
+                <div class="empty-state">暂无搜索记录</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模型配置弹窗 -->
+    <div id="config-modal" class="modal-overlay" onclick="closeConfigModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 style="margin: 0;">模型配置</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Provider</label>
+                    <input type="text" id="config-provider" placeholder="例如：openai, zhipu, deepseek">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">API Key</label>
+                    <input type="password" id="config-api-key" placeholder="输入 API Key">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">API URL</label>
+                    <input type="text" id="config-api-url" placeholder="例如：https://api.openai.com/v1">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Model Name</label>
+                    <input type="text" id="config-model-name" placeholder="例如：gpt-4o, glm-4, deepseek-chat">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeConfigModal()" class="btn btn-ghost">取消</button>
+                <button onclick="saveConfig()" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+    <script>
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLastSearch();
+            loadSessions();
+        });
+    </script>
+</body>
+</html>

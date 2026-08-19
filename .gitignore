@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Data
+data/
+*.db
+
+# Logs
+*.log
+
+# Test screenshots
+test_*.png
+
+# Config with secrets
+config.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
